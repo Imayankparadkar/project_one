@@ -50,7 +50,7 @@ To get a local copy up and running, follow these simple steps.
 1. **Clone the repository**:
 
    ```bash
-   git clone https://github.com/Imayankparadkar/project_one/clone-web-next.git
+   https://github.com/Imayankparadkar/project_one.git
    cd my-app
    ```
 
