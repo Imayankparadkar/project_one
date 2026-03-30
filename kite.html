@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reach Niche Audiences</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: #f0f0f0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+      }
+
+      /* ── ICON WRAPPER ── */
+      .icon-box {
+        width: 420px;
+        height: 420px;
+        background: #f5f5f5;
+        border-radius: 48px;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      /* ══════════════════════════════════
+     CROSSHAIR
+  ══════════════════════════════════ */
+      .crosshair {
+        position: relative;
+        width: 110px;
+        height: 110px;
+        margin-top: 30px;
+        flex-shrink: 0;
+      }
+      /* outer ring */
+      .crosshair .ring-outer {
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+        border: 7px solid #2d2d2d;
+      }
+      /* inner ring */
+      .crosshair .ring-inner {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 42px;
+        height: 42px;
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+        border: 7px solid #2d2d2d;
+      }
+      /* cross lines using pseudo elements */
+      .crosshair .line-h,
+      .crosshair .line-v {
+        position: absolute;
+        background: #2d2d2d;
+        border-radius: 4px;
+      }
+      /* horizontal line */
+      .crosshair .line-h {
+        width: 100%;
+        height: 7px;
+        top: 50%;
+        left: 0;
+        transform: translateY(-50%);
+      }
+      /* vertical line */
+      .crosshair .line-v {
+        height: 100%;
+        width: 7px;
+        left: 50%;
+        top: 0;
+        transform: translateX(-50%);
+      }
+      /* mask center gap — cover middle section with ring bg */
+      .crosshair .mask-center {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 54px;
+        height: 54px;
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+        background: #f5f5f5;
+        z-index: 2;
+      }
+      /* mask outer gap — cover outside ring area */
+      .crosshair .mask-outer {
+        position: absolute;
+        inset: -14px;
+        border-radius: 50%;
+        background: transparent;
+        box-shadow: 0 0 0 20px #f5f5f5;
+        z-index: 2;
+      }
+      /* short line segments (ticks outside ring) */
+      .crosshair .tick {
+        position: absolute;
+        background: #2d2d2d;
+        border-radius: 3px;
+        z-index: 3;
+      }
+      .tick.top {
+        width: 7px;
+        height: 14px;
+        top: -14px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      .tick.bottom {
+        width: 7px;
+        height: 14px;
+        bottom: -14px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      .tick.left {
+        height: 7px;
+        width: 14px;
+        left: -14px;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+      .tick.right {
+        height: 7px;
+        width: 14px;
+        right: -14px;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+      /* inner ticks (between inner and outer ring) */
+      .tick.ti-top {
+        width: 7px;
+        height: 12px;
+        top: 8px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 3;
+      }
+      .tick.ti-bottom {
+        width: 7px;
+        height: 12px;
+        bottom: 8px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 3;
+      }
+      .tick.ti-left {
+        height: 7px;
+        width: 12px;
+        left: 8px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 3;
+      }
+      .tick.ti-right {
+        height: 7px;
+        width: 12px;
+        right: 8px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 3;
+      }
+
+      /* ══════════════════════════════════
+     PEOPLE ROW WRAPPER
+  ══════════════════════════════════ */
+      .people-area {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 280px;
+      }
+
+      /* ── PERSON BASE ── */
+      .person {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      /* head */
+      .head {
+        border-radius: 50%;
+        background: #f5c09a;
+        border: 5.5px solid #2d2d2d;
+        position: relative;
+        z-index: 10;
+        flex-shrink: 0;
+      }
+      /* body */
+      .body {
+        border-radius: 50% 50% 30px 30px;
+        border: 5.5px solid #2d2d2d;
+        margin-top: -8px;
+        position: relative;
+        z-index: 9;
+        flex-shrink: 0;
+      }
+
+      /* ══════════════════════════════════
+     BACK ROW — 3 people (smaller)
+  ══════════════════════════════════ */
+      /* Back Left — Coral */
+      .p-bl {
+        left: 118px;
+        top: 0;
+        z-index: 1;
+      }
+      .p-bl .head {
+        width: 48px;
+        height: 48px;
+      }
+      .p-bl .body {
+        width: 68px;
+        height: 52px;
+        background: #e8614a;
+      }
+
+      /* Back Center — Teal */
+      .p-bc {
+        left: 50%;
+        top: 0;
+        transform: translateX(-50%);
+        z-index: 3;
+      }
+      .p-bc .head {
+        width: 50px;
+        height: 50px;
+      }
+      .p-bc .body {
+        width: 70px;
+        height: 54px;
+        background: #30b8a5;
+      }
+
+      /* Back Right — Purple */
+      .p-br {
+        right: 118px;
+        top: 0;
+        z-index: 1;
+      }
+      .p-br .head {
+        width: 48px;
+        height: 48px;
+      }
+      .p-br .body {
+        width: 68px;
+        height: 52px;
+        background: #9b68c0;
+      }
+
+      /* ══════════════════════════════════
+     FRONT ROW — 5 people (larger)
+  ══════════════════════════════════ */
+      /* Far Left — Navy Purple */
+      .p-fl {
+        left: 20px;
+        top: 85px;
+        z-index: 4;
+      }
+      .p-fl .head {
+        width: 56px;
+        height: 56px;
+      }
+      .p-fl .body {
+        width: 80px;
+        height: 64px;
+        background: #4a3f88;
+        border-radius: 50% 50% 36px 36px;
+      }
+
+      /* Left — Yellow */
+      .p-l {
+        left: 104px;
+        top: 72px;
+        z-index: 6;
+      }
+      .p-l .head {
+        width: 56px;
+        height: 56px;
+      }
+      .p-l .body {
+        width: 80px;
+        height: 64px;
+        background: #f5b830;
+        border-radius: 50% 50% 36px 36px;
+      }
+
+      /* Center — Salmon (tallest / most forward) */
+      .p-c {
+        left: 50%;
+        top: 58px;
+        transform: translateX(-50%);
+        z-index: 8;
+      }
+      .p-c .head {
+        width: 60px;
+        height: 60px;
+      }
+      .p-c .body {
+        width: 86px;
+        height: 68px;
+        background: #e8886a;
+        border-radius: 50% 50% 38px 38px;
+      }
+
+      /* Right — Red/Coral */
+      .p-r {
+        right: 104px;
+        top: 72px;
+        z-index: 6;
+      }
+      .p-r .head {
+        width: 56px;
+        height: 56px;
+      }
+      .p-r .body {
+        width: 80px;
+        height: 64px;
+        background: #e84040;
+        border-radius: 50% 50% 36px 36px;
+      }
+
+      /* Far Right — Mint Teal */
+      .p-fr {
+        right: 20px;
+        top: 85px;
+        z-index: 4;
+      }
+      .p-fr .head {
+        width: 56px;
+        height: 56px;
+      }
+      .p-fr .body {
+        width: 80px;
+        height: 64px;
+        background: #28bea0;
+        border-radius: 50% 50% 36px 36px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="icon-box">
+      <!-- ── CROSSHAIR ── -->
+      <div class="crosshair">
+        <div class="ring-outer"></div>
+        <div class="ring-inner"></div>
+        <div class="line-h"></div>
+        <div class="line-v"></div>
+        <div class="mask-center"></div>
+        <div class="mask-outer"></div>
+        <div class="tick top"></div>
+        <div class="tick bottom"></div>
+        <div class="tick left"></div>
+        <div class="tick right"></div>
+        <div class="tick ti-top"></div>
+        <div class="tick ti-bottom"></div>
+        <div class="tick ti-left"></div>
+        <div class="tick ti-right"></div>
+      </div>
+
+      <!-- ── PEOPLE ── -->
+      <div class="people-area">
+        <!-- BACK ROW -->
+        <div class="person p-bl">
+          <div class="head"></div>
+          <div class="body"></div>
+        </div>
+        <div class="person p-br">
+          <div class="head"></div>
+          <div class="body"></div>
+        </div>
+        <div class="person p-bc">
+          <div class="head"></div>
+          <div class="body"></div>
+        </div>
+
+        <!-- FRONT ROW -->
+        <div class="person p-fl">
+          <div class="head"></div>
+          <div class="body"></div>
+        </div>
+        <div class="person p-fr">
+          <div class="head"></div>
+          <div class="body"></div>
+        </div>
+        <div class="person p-l">
+          <div class="head"></div>
+          <div class="body"></div>
+        </div>
+        <div class="person p-r">
+          <div class="head"></div>
+          <div class="body"></div>
+        </div>
+        <div class="person p-c">
+          <div class="head"></div>
+          <div class="body"></div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
